@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AZ-900 Flashcard Coach (Unofficial)</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="cards.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>AZ-900 Flashcard Coach</h1>
+    <p>Cards you miss come back sooner.</p>
+    <p class="unofficial">Unofficial study tool. Not affiliated with or endorsed by Microsoft.</p>
+  </header>
+
+  <main>
+    <section class="panel controls" aria-label="Study options">
+      <div>
+        <label for="topic-select">Topic</label>
+        <select id="topic-select" name="topic-select">
+          <option value="all">All topics</option>
+        </select>
+      </div>
+      <label class="check"><input type="checkbox" id="weak-only" name="weak-only"> Weak cards only</label>
+    </section>
+
+    <section aria-label="Flashcard">
+      <button id="flashcard" class="flashcard" type="button" aria-live="polite">
+        <span id="card-topic" class="card-topic"></span>
+        <span id="card-main" class="card-main"></span>
+        <span id="card-extra" class="card-extra"></span>
+      </button>
+      <p id="hint"></p>
+      <div id="answer-buttons" hidden>
+        <button id="miss-btn" class="miss" type="button">Still learning</button>
+        <button id="got-btn" class="got" type="button">Got it</button>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Progress">
+      <p id="progress-text"></p>
+      <div class="bar"><div id="bar-fill"></div></div>
+      <button id="reset-btn" class="link-btn" type="button">Reset progress</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>Study aid built from the public Microsoft Learn Azure Fundamentals material, in my own words.</p>
+  </footer>
+</body>
+</html>
