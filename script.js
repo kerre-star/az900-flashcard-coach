@@ -9,12 +9,14 @@ const hint = document.querySelector("#hint");
 const answerButtons = document.querySelector("#answer-buttons");
 const missBtn = document.querySelector("#miss-btn");
 const gotBtn = document.querySelector("#got-btn");
+const flipBtn = document.querySelector("#flip-btn");
 const progressText = document.querySelector("#progress-text");
 const barFill = document.querySelector("#bar-fill");
 const resetBtn = document.querySelector("#reset-btn");
 
 const STORAGE_KEY = "az900-flashcards";
 const MAX_BOX = 5;
+const KNOWN_BOX = 2; // answered "Got it" at least once and not missed since
 const MASTERED_BOX = 4;
 // The lower the box, the more often a card is shown (box 1 = 16x box 5)
 const WEIGHTS = { 1: 16, 2: 8, 3: 4, 4: 2, 5: 1 };
@@ -87,6 +89,7 @@ function render() {
     cardExtra.textContent = "";
     hint.textContent = "";
     answerButtons.hidden = true;
+    flipBtn.hidden = true;
     return;
   }
 
@@ -99,15 +102,18 @@ function render() {
     cardTopic.textContent = current.topic;
     cardMain.textContent = current.term;
     cardExtra.textContent = "";
-    hint.textContent = "Think of the definition, then click the card or press Space to flip it.";
+    hint.textContent = "Think of the definition, then press “Show answer” (or Space).";
   }
   answerButtons.hidden = !flipped;
+  flipBtn.hidden = flipped;
 }
 
 function updateProgress() {
+  const known = CARDS.filter((card) => stateOf(card).box >= KNOWN_BOX).length;
   const mastered = CARDS.filter((card) => stateOf(card).box >= MASTERED_BOX).length;
-  progressText.textContent = `Mastered ${mastered} of ${CARDS.length} cards`;
-  barFill.style.width = `${(mastered / CARDS.length) * 100}%`;
+  progressText.textContent =
+    `Known ${known} of ${CARDS.length} cards · Mastered ${mastered} (answered correctly 3 times in a row)`;
+  barFill.style.width = `${(known / CARDS.length) * 100}%`;
 }
 
 // ---------- 5. Actions ----------
@@ -150,6 +156,7 @@ function answer(gotIt) {
 flashcard.addEventListener("click", flip);
 gotBtn.addEventListener("click", () => answer(true));
 missBtn.addEventListener("click", () => answer(false));
+flipBtn.addEventListener("click", flip);
 topicSelect.addEventListener("change", showNext);
 weakOnly.addEventListener("change", showNext);
 
